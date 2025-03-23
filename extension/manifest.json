@@ -5,16 +5,16 @@
   "version": "1.0.0",
   "description": "A helpful companion for planning and performing Umrah",
   "icons": {
-    "48": "public/icon-48.png",
-    "96": "public/icon-96.png"
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
   },
   "browser_action": {
     "default_icon": {
-      "48": "public/icon-48.png",
-      "96": "public/icon-96.png"
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
     },
     "default_title": "Umrah Companion",
-    "default_popup": "extension/popup.html"
+    "default_popup": "popup/popup.html"
   },
   "permissions": [
     "storage",
@@ -22,7 +22,7 @@
     "*://*.openweathermap.org/*"
   ],
   "background": {
-    "scripts": ["extension/background.js"]
+    "scripts": ["scripts/background.js"]
   },
   "browser_specific_settings": {
     "gecko": {

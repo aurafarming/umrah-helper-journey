@@ -3,6 +3,13 @@
 
 This Firefox extension helps Muslims plan and perform Umrah by providing helpful tools and information.
 
+## Directory Structure
+
+- `icons/` - Contains extension icons
+- `popup/` - Contains popup UI files (HTML, CSS, JS)
+- `scripts/` - Contains background scripts and utilities
+- `pages/` - Contains full page views for the extension
+
 ## Building the Extension
 
 1. Build the web application:
@@ -32,22 +39,10 @@ This Firefox extension helps Muslims plan and perform Umrah by providing helpful
 2. Click the gear icon and select "Install Add-on From File..."
 3. Select the `umrah-companion.xpi` file from the `dist` folder
 
-## Usage
-
-After installation, the extension icon will appear in your Firefox toolbar. Click it to access the quick tools or to open the full application.
-
 ## Features
 
 - Prayer time calculator
 - Arabic phrases and translation
-- Hotel and flight search
 - Weather information
 - Umrah guides and checklists
-- Bookmark system for saving accommodations and flights
-
-## Permissions
-
-This extension requires the following permissions:
-- `storage`: To save your preferences and bookmarks
-- `geolocation`: To provide accurate prayer times based on your location
-- Access to openweathermap.org: For weather information
+- Bookmark system for saving accommodations

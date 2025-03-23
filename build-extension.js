@@ -40,16 +40,26 @@ archive.on('error', function(err) {
 archive.pipe(output);
 
 // Add manifest.json
-archive.file('manifest.json', { name: 'manifest.json' });
+archive.file('extension/manifest.json', { name: 'manifest.json' });
 
-// Add extension files
-archive.directory('extension/', 'extension');
+// Add icons
+fs.mkdirSync('dist/icons', { recursive: true });
+archive.directory('extension/icons/', 'icons');
 
-// Add public directory (for icons)
-archive.directory('public/', 'public');
+// Add popup files
+fs.mkdirSync('dist/popup', { recursive: true });
+archive.directory('extension/popup/', 'popup');
 
-// Add dist files (built Vite app)
-archive.directory('dist/', '');
+// Add scripts
+fs.mkdirSync('dist/scripts', { recursive: true });
+archive.directory('extension/scripts/', 'scripts');
+
+// Add pages
+fs.mkdirSync('dist/pages', { recursive: true });
+archive.directory('extension/pages/', 'pages');
+
+// Also copy relevant dist files from Vite build
+archive.directory('dist/', 'pages');
 
 // Finalize the archive
 archive.finalize();
