@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -6,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Label, 
   Search, 
   Volume2, 
   Star, 
@@ -77,7 +75,6 @@ const ArabicPhrases = () => {
   };
 
   const markAsRecent = (phraseId: string) => {
-    // Keep only the last 10 recent phrases
     const newRecent = [
       phraseId, 
       ...recentPhrases.filter(id => id !== phraseId)
@@ -87,8 +84,6 @@ const ArabicPhrases = () => {
   };
 
   const playAudio = (text: string, language: string) => {
-    // In a real implementation, this would use the Web Speech API or an external service
-    // For demonstration purposes, we're just logging
     console.log(`Playing audio for: ${text} in ${language}`);
     
     if ('speechSynthesis' in window) {
