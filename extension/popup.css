@@ -17,31 +17,31 @@
 body {
   background-color: var(--background);
   color: var(--text);
-  width: 320px;
-  max-height: 600px;
+  width: 280px; /* Reduced width for a more compact popup */
+  max-height: 480px; /* Reduced max height */
   overflow-x: hidden;
 }
 
 .container {
-  padding: 16px;
+  padding: 12px; /* Reduced padding */
 }
 
 header {
-  padding-bottom: 16px;
-  margin-bottom: 16px;
+  padding-bottom: 12px; /* Reduced padding */
+  margin-bottom: 12px; /* Reduced margin */
   border-bottom: 1px solid var(--border);
   text-align: center;
 }
 
 h1 {
-  font-size: 18px;
+  font-size: 16px; /* Smaller font */
   font-weight: 600;
 }
 
 .quick-access {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 6px; /* Reduced gap */
 }
 
 .tool-button {
@@ -49,13 +49,13 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 12px; /* Reduced padding */
   background-color: #f9fafb;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 6px; /* Smaller border radius */
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 14px;
+  font-size: 12px; /* Smaller font */
   font-weight: 500;
 }
 
