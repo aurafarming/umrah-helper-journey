@@ -1,26 +1,38 @@
 
 import React, { useState } from 'react';
-import { Search, X } from 'lucide-react';
+import { Search, X, Filter } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from './ui/dropdown-menu';
 
 interface SearchBarProps {
   placeholder?: string;
   className?: string;
-  onSearch?: (term: string) => void;
+  onSearch?: (term: string, type?: string) => void;
+  searchTypes?: string[];
+  enableFilters?: boolean;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = "Search...",
   className,
-  onSearch
+  onSearch,
+  searchTypes = ["general"],
+  enableFilters = false
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const [activeSearchType, setActiveSearchType] = useState(searchTypes[0]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (onSearch && searchTerm.trim()) {
-      onSearch(searchTerm);
+      onSearch(searchTerm, activeSearchType);
     }
   };
 
@@ -53,7 +65,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             "focus:outline-none transition-all duration-250 shadow-subtle",
             isFocused ? "shadow-elevation" : ""
           )}
-          placeholder={placeholder}
+          placeholder={`${placeholder} ${activeSearchType !== 'general' ? `(${activeSearchType})` : ''}`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={() => setIsFocused(true)}
@@ -63,11 +75,36 @@ const SearchBar: React.FC<SearchBarProps> = ({
         {searchTerm && (
           <button
             type="button"
-            className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground"
+            className="absolute inset-y-0 right-12 flex items-center pr-3 text-muted-foreground hover:text-foreground"
             onClick={clearSearch}
           >
             <X className="h-4 w-4" />
           </button>
+        )}
+
+        {searchTypes.length > 1 && (
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 p-0">
+                  <Filter className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {searchTypes.map((type) => (
+                  <DropdownMenuItem 
+                    key={type}
+                    onClick={() => setActiveSearchType(type)}
+                    className={cn(
+                      activeSearchType === type ? "bg-primary/10 text-primary" : ""
+                    )}
+                  >
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         )}
       </div>
     </form>

@@ -1,13 +1,26 @@
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import PrayerTimes from '@/components/PrayerTimes';
 import UmrahGuide from '@/components/UmrahGuide';
 import Checklist from '@/components/Checklist';
 import SearchBar from '@/components/SearchBar';
+import HotelFinder from '@/components/HotelFinder';
+import FlightBooking from '@/components/FlightBooking';
+import PackageFinder from '@/components/PackageFinder';
+import WeatherInfo from '@/components/WeatherInfo';
+import ArabicPhrases from '@/components/ArabicPhrases';
+import BookmarkSystem from '@/components/BookmarkSystem';
+import QuickAccessToolbar from '@/components/QuickAccessToolbar';
 import { createScrollObserver } from '@/utils/animations';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 const Index = () => {
+  // State for active tool/tab
+  const [activeTab, setActiveTab] = useLocalStorage('activeTab', 'home');
+  const [activeToolbarItem, setActiveToolbarItem] = useLocalStorage('activeToolbarItem', '');
+  
   // Initialize scroll animations
   useEffect(() => {
     const observer = createScrollObserver();
@@ -20,139 +33,284 @@ const Index = () => {
     };
   }, []);
 
+  // Handle tool selection from toolbar
+  const handleToolSelect = (toolId: string) => {
+    switch (toolId) {
+      case 'prayerTimes':
+        setActiveTab('prayerTimes');
+        break;
+      case 'hotels':
+        setActiveTab('hotels');
+        break;
+      case 'flights':
+        setActiveTab('flights');
+        break;
+      case 'packages':
+        setActiveTab('packages');
+        break;
+      case 'weather':
+        setActiveTab('weather');
+        break;
+      case 'phrases':
+        setActiveTab('phrases');
+        break;
+      case 'bookmarks':
+        setActiveTab('bookmarks');
+        break;
+      default:
+        setActiveTab('home');
+    }
+    
+    setActiveToolbarItem(toolId);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      {/* Hero Section */}
-      <section className="pt-28 pb-16 px-4 md:pt-32 md:pb-24">
-        <div className="container max-w-6xl mx-auto">
-          <div className="text-center mb-10 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-balance mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-              Your Complete Umrah Assistant
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto text-balance">
-              Simplify your spiritual journey with prayer times, step-by-step guides, and essential planning tools.
-            </p>
-          </div>
-          
-          <div className="flex justify-center mb-12 animate-fade-in" style={{ animationDelay: '200ms' }}>
-            <SearchBar 
-              placeholder="Search for guides, tools, or features..." 
-              className="w-full max-w-xl"
-              onSearch={(term) => console.log('Search term:', term)}
-            />
-          </div>
-          
-          {/* Feature Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="animate-on-scroll" style={{ transitionDelay: '100ms' }}>
-              <div className="floating-card h-full flex flex-col">
-                <div className="aspect-video bg-gradient-to-tr from-primary/10 to-primary/30 rounded-t-xl flex items-center justify-center">
-                  <div className="h-16 w-16 rounded-full bg-white/90 shadow-subtle flex items-center justify-center">
-                    <div className="bg-primary/10 h-10 w-10 rounded-full flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 14a2 2 0 100-4 2 2 0 000 4z"></path>
-                        <path d="M12 2v2"></path>
-                        <path d="M12 22v-2"></path>
-                        <path d="M4.93 4.93l1.41 1.41"></path>
-                        <path d="M17.66 17.66l1.41 1.41"></path>
-                        <path d="M2 12h2"></path>
-                        <path d="M22 12h-2"></path>
-                        <path d="M6.34 17.66l-1.41 1.41"></path>
-                        <path d="M19.07 4.93l-1.41 1.41"></path>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5 flex-grow">
-                  <h3 className="text-lg font-semibold mb-2">Prayer Times</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Get accurate prayer times based on your location in Saudi Arabia with multiple calculation methods.
-                  </p>
-                </div>
-                <div className="p-4 border-t">
-                  <a href="#prayer-times" className="text-primary text-sm font-medium hover:underline">
-                    View Prayer Times →
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            <div className="animate-on-scroll" style={{ transitionDelay: '200ms' }}>
-              <div className="floating-card h-full flex flex-col">
-                <div className="aspect-video bg-gradient-to-tr from-accent/10 to-accent/30 rounded-t-xl flex items-center justify-center">
-                  <div className="h-16 w-16 rounded-full bg-white/90 shadow-subtle flex items-center justify-center">
-                    <div className="bg-accent/10 h-10 w-10 rounded-full flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5 flex-grow">
-                  <h3 className="text-lg font-semibold mb-2">Umrah Guide</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Step-by-step instructions for all Umrah rituals with tips and common mistakes to avoid.
-                  </p>
-                </div>
-                <div className="p-4 border-t">
-                  <a href="#umrah-guide" className="text-primary text-sm font-medium hover:underline">
-                    View Umrah Guide →
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            <div className="animate-on-scroll" style={{ transitionDelay: '300ms' }}>
-              <div className="floating-card h-full flex flex-col">
-                <div className="aspect-video bg-gradient-to-tr from-purple-100 to-purple-300 rounded-t-xl flex items-center justify-center">
-                  <div className="h-16 w-16 rounded-full bg-white/90 shadow-subtle flex items-center justify-center">
-                    <div className="bg-purple-100 h-10 w-10 rounded-full flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M9 11l3 3L22 4"></path>
-                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5 flex-grow">
-                  <h3 className="text-lg font-semibold mb-2">Travel Checklist</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Comprehensive checklist for documents, clothing, and personal items needed for your Umrah journey.
-                  </p>
-                </div>
-                <div className="p-4 border-t">
-                  <a href="#travel-planning" className="text-primary text-sm font-medium hover:underline">
-                    View Checklist →
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Quick Access Toolbar */}
+      <QuickAccessToolbar onToolSelect={handleToolSelect} activeTool={activeToolbarItem} />
       
-      {/* Prayer Times Section */}
-      <section id="prayer-times" className="py-16 px-4 bg-white">
+      {/* Main Content Area */}
+      <main className="pt-24 pb-16 px-4">
         <div className="container max-w-6xl mx-auto">
-          <div className="text-center mb-10 animate-on-scroll">
-            <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-3">
-              Prayer Times
-            </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Never Miss a Prayer
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Accurate prayer times based on your current location with multiple calculation methods.
-            </p>
-          </div>
-          
-          <div className="max-w-md mx-auto animate-on-scroll">
-            <PrayerTimes />
-          </div>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 mb-8">
+              <TabsTrigger value="home">Home</TabsTrigger>
+              <TabsTrigger value="prayerTimes">Prayer Times</TabsTrigger>
+              <TabsTrigger value="hotels">Hotels</TabsTrigger>
+              <TabsTrigger value="flights">Flights</TabsTrigger>
+              <TabsTrigger value="packages">Packages</TabsTrigger>
+              <TabsTrigger value="weather">Weather</TabsTrigger>
+              <TabsTrigger value="phrases">Arabic</TabsTrigger>
+              <TabsTrigger value="bookmarks">Bookmarks</TabsTrigger>
+            </TabsList>
+            
+            {/* Home Tab */}
+            <TabsContent value="home">
+              <div className="text-center mb-10 animate-fade-in">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-balance mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+                  Your Complete Umrah Assistant
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto text-balance">
+                  Simplify your spiritual journey with prayer times, step-by-step guides, and essential planning tools.
+                </p>
+              </div>
+              
+              <div className="flex justify-center mb-12 animate-fade-in" style={{ animationDelay: '200ms' }}>
+                <SearchBar 
+                  placeholder="Search for guides, tools, or features..." 
+                  className="w-full max-w-xl"
+                  searchTypes={["hotels", "flights", "packages", "guides"]}
+                  onSearch={(term, type) => {
+                    console.log('Search term:', term, 'Type:', type);
+                    // In a real app, we would route to the appropriate section
+                    if (type === 'hotels') setActiveTab('hotels');
+                    if (type === 'flights') setActiveTab('flights');
+                    if (type === 'packages') setActiveTab('packages');
+                  }}
+                />
+              </div>
+              
+              {/* Feature Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="animate-on-scroll" style={{ transitionDelay: '100ms' }}>
+                  <div className="floating-card h-full flex flex-col">
+                    <div className="aspect-video bg-gradient-to-tr from-primary/10 to-primary/30 rounded-t-xl flex items-center justify-center">
+                      <div className="h-16 w-16 rounded-full bg-white/90 shadow-subtle flex items-center justify-center">
+                        <div className="bg-primary/10 h-10 w-10 rounded-full flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 14a2 2 0 100-4 2 2 0 000 4z"></path>
+                            <path d="M12 2v2"></path>
+                            <path d="M12 22v-2"></path>
+                            <path d="M4.93 4.93l1.41 1.41"></path>
+                            <path d="M17.66 17.66l1.41 1.41"></path>
+                            <path d="M2 12h2"></path>
+                            <path d="M22 12h-2"></path>
+                            <path d="M6.34 17.66l-1.41 1.41"></path>
+                            <path d="M19.07 4.93l-1.41 1.41"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-5 flex-grow">
+                      <h3 className="text-lg font-semibold mb-2">Prayer Times</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Get accurate prayer times based on your location in Saudi Arabia with multiple calculation methods.
+                      </p>
+                    </div>
+                    <div className="p-4 border-t">
+                      <button 
+                        onClick={() => setActiveTab('prayerTimes')} 
+                        className="text-primary text-sm font-medium hover:underline"
+                      >
+                        View Prayer Times →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="animate-on-scroll" style={{ transitionDelay: '200ms' }}>
+                  <div className="floating-card h-full flex flex-col">
+                    <div className="aspect-video bg-gradient-to-tr from-accent/10 to-accent/30 rounded-t-xl flex items-center justify-center">
+                      <div className="h-16 w-16 rounded-full bg-white/90 shadow-subtle flex items-center justify-center">
+                        <div className="bg-accent/10 h-10 w-10 rounded-full flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-5 flex-grow">
+                      <h3 className="text-lg font-semibold mb-2">Umrah Guide</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Step-by-step instructions for all Umrah rituals with tips and common mistakes to avoid.
+                      </p>
+                    </div>
+                    <div className="p-4 border-t">
+                      <button 
+                        onClick={() => document.getElementById('umrah-guide')?.scrollIntoView({ behavior: 'smooth' })} 
+                        className="text-primary text-sm font-medium hover:underline"
+                      >
+                        View Umrah Guide →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="animate-on-scroll" style={{ transitionDelay: '300ms' }}>
+                  <div className="floating-card h-full flex flex-col">
+                    <div className="aspect-video bg-gradient-to-tr from-purple-100 to-purple-300 rounded-t-xl flex items-center justify-center">
+                      <div className="h-16 w-16 rounded-full bg-white/90 shadow-subtle flex items-center justify-center">
+                        <div className="bg-purple-100 h-10 w-10 rounded-full flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M9 11l3 3L22 4"></path>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-5 flex-grow">
+                      <h3 className="text-lg font-semibold mb-2">Travel Checklist</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Comprehensive checklist for documents, clothing, and personal items needed for your Umrah journey.
+                      </p>
+                    </div>
+                    <div className="p-4 border-t">
+                      <button 
+                        onClick={() => document.getElementById('travel-planning')?.scrollIntoView({ behavior: 'smooth' })} 
+                        className="text-primary text-sm font-medium hover:underline"
+                      >
+                        View Checklist →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+            
+            {/* Prayer Times Tab */}
+            <TabsContent value="prayerTimes">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+                  Prayer Times
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Accurate prayer times based on your current location with multiple calculation methods.
+                </p>
+              </div>
+              
+              <div className="max-w-md mx-auto">
+                <PrayerTimes />
+              </div>
+            </TabsContent>
+            
+            {/* Hotels Tab */}
+            <TabsContent value="hotels">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+                  Hotel Finder
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Find and compare hotels near holy sites with detailed information on amenities and pricing.
+                </p>
+              </div>
+              
+              <HotelFinder />
+            </TabsContent>
+            
+            {/* Flights Tab */}
+            <TabsContent value="flights">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+                  Flight Booking
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Book flights to Saudi Arabia and arrange local transportation between holy cities.
+                </p>
+              </div>
+              
+              <FlightBooking />
+            </TabsContent>
+            
+            {/* Packages Tab */}
+            <TabsContent value="packages">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+                  Umrah Package Finder
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Compare comprehensive Umrah packages from various providers to find the best option for your journey.
+                </p>
+              </div>
+              
+              <PackageFinder />
+            </TabsContent>
+            
+            {/* Weather Tab */}
+            <TabsContent value="weather">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+                  Weather Information
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Check current and forecasted weather conditions in holy cities with clothing recommendations.
+                </p>
+              </div>
+              
+              <WeatherInfo />
+            </TabsContent>
+            
+            {/* Arabic Phrases Tab */}
+            <TabsContent value="phrases">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+                  Arabic Phrases
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Essential Arabic phrases and translations to help you communicate during your journey.
+                </p>
+              </div>
+              
+              <ArabicPhrases />
+            </TabsContent>
+            
+            {/* Bookmarks Tab */}
+            <TabsContent value="bookmarks">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+                  Saved Items
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  View and manage your saved hotels, flights, and packages in one place.
+                </p>
+              </div>
+              
+              <BookmarkSystem />
+            </TabsContent>
+          </Tabs>
         </div>
-      </section>
+      </main>
       
       {/* Umrah Guide Section */}
       <section id="umrah-guide" className="py-16 px-4 bg-gray-50">
@@ -228,17 +386,19 @@ const Index = () => {
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Features</h3>
               <ul className="space-y-2">
-                <li><a href="#prayer-times" className="text-gray-400 hover:text-white transition-colors">Prayer Times</a></li>
-                <li><a href="#umrah-guide" className="text-gray-400 hover:text-white transition-colors">Umrah Guide</a></li>
-                <li><a href="#travel-planning" className="text-gray-400 hover:text-white transition-colors">Travel Planning</a></li>
+                <li><button onClick={() => setActiveTab('prayerTimes')} className="text-gray-400 hover:text-white transition-colors">Prayer Times</button></li>
+                <li><button onClick={() => setActiveTab('hotels')} className="text-gray-400 hover:text-white transition-colors">Hotel Finder</button></li>
+                <li><button onClick={() => setActiveTab('flights')} className="text-gray-400 hover:text-white transition-colors">Flight Booking</button></li>
+                <li><button onClick={() => setActiveTab('packages')} className="text-gray-400 hover:text-white transition-colors">Package Deals</button></li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Resources</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">API</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><button onClick={() => document.getElementById('umrah-guide')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Umrah Guide</button></li>
+                <li><button onClick={() => setActiveTab('weather')} className="text-gray-400 hover:text-white transition-colors">Weather Info</button></li>
+                <li><button onClick={() => setActiveTab('phrases')} className="text-gray-400 hover:text-white transition-colors">Arabic Phrases</button></li>
+                <li><button onClick={() => document.getElementById('travel-planning')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Travel Checklist</button></li>
               </ul>
             </div>
             <div>
